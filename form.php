@@ -1,29 +1,34 @@
 <?php
-// Check of het formulier is ingediend
+$naamErr = $emailErr = "";
+$naam = $email = "";
+
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-  // Verwerkingscode hier
+  if (empty($_POST["naam"])) {
+    $naamErr = "Naam is verplicht";
+  } else {
+    $naam = test_input($_POST["naam"]);
+  }
+
+  if (empty($_POST["email"])) {
+    $emailErr = "E-mail is verplicht";
+  } else {
+    $email = test_input($_POST["email"]);
+    if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+      $emailErr = "Ongeldig e-mailadres";
+      $email = "";
+    }
+  }
+
+  // Als beide velden zijn ingevuld, verwerk het formulier
+  if (!empty($naam) && !empty($email)) {
+    // Verwerkingscode hier
+  }
+}
+
+function test_input($data) {
+  $data = trim($data);
+  $data = stripslashes($data);
+  $data = htmlspecialchars($data);
+  return $data;
 }
 ?>
-
-<!DOCTYPE html>
-<html>
-<head>
-  <title>Mijn gecombineerde pagina</title>
-</head>
-<body>
-
-  <h1>Formulier</h1>
-
-  <form method="POST" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
-    Naam: <input type="text" name="naam" value="<?php echo htmlspecialchars($_POST['naam'] ?? '', ENT_QUOTES); ?>">
-    E-mail: <input type="email" name="email"><br>
-    Bericht: <textarea name="bericht"></textarea><br>
-    <input type="submit" value="Verzenden">
-  </form>
-
-  <?php
-  // Plaats hier alle inhoud van de tweede pagina
-  ?>
-
-</body>
-</html>
