@@ -15,7 +15,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   <h1>Formulier</h1>
 
   <form method="POST" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
-    Naam: <input type="text" name="naam"><br>
+    Naam: <input type="text" name="naam" value="<?php echo htmlspecialchars($_POST['naam'] ?? '', ENT_QUOTES); ?>">
     E-mail: <input type="email" name="email"><br>
     Bericht: <textarea name="bericht"></textarea><br>
     <input type="submit" value="Verzenden">
